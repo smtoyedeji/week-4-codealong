@@ -13,7 +13,7 @@ function HelloMessage({project}) {
             //   <h2 key={index}>{item.name}</h2>
             //   <img src={item.image}/>
             // </div>
-            <li>
+            <li key={index}>
               <a href={`/project/${index}`}>{item.name}</a>
             </li>
           )
