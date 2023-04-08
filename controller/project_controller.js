@@ -1,19 +1,63 @@
 const express = require("express");
 
-const project = express.Router();
+const projects = express.Router();
 
-const Project= require("../models/project")
+const Projects= require("../models/projects")
 
-project.get("/", (req, res) => {
+projects.get("/", (req, res) => {
   res.render('index',
     {
-      project: Project
+      projects: Projects
     }
   );
 });
 
-project.get('/:arrayIndex', (req, res)=>{
-  res.send(Project[req.params.arrayIndex])
+// new project
+projects.get('/new', (req, res) => {
+  res.render('New')
 })
 
-module.exports = project;
+// 404 error
+projects.get('*', (req, res) => {
+  res.render('ErrorPage')
+})
+
+
+// show project
+projects.get('/:arrayIndex', (req, res) => {
+  if(Projects[req.params.arrayIndex]){
+    res.render('Show', {
+      project: Projects[req.params.arrayIndex]
+    })
+  } else {
+    res.send('Not found, go back!')
+  }
+})
+
+
+// create post
+projects.post('/', (req, res) => {
+  console.log(req.body)
+  if(!req.body.image) {
+    req.body.image = "https://play-lh.googleusercontent.com/lq1QY3o2WDZszdqXfEt8nLODSCI7T9Slb2y4LcFv7fpCQsDawMNYHCi9wIsxH7hxdg0"
+  }
+  if(req.body.hasDatabase === 'on') {
+    req.body.hasDatabase = 'true'
+  } else {
+    req.body.hasDatabase = 'false'
+  }
+  Projects.push(req.body)
+  res.redirect('/projects')
+})
+
+// projects.post('/', (req, res) => {
+//   if(req.body.hasDatabase === 'on') {
+//     req.body.hasDatabase = true
+//   } else {
+//     req.body.hasDatabase = false
+//   }
+//   Projects.push(req.body)
+//   res.send(Projects)
+// })
+
+module.exports = projects;

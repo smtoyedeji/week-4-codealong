@@ -1,13 +1,13 @@
 const React = require('react');
 const DefaultLayout = require('./layouts/default');
 
-function HelloMessage({project}) {
+function HelloMessage({projects}) {
   return (
     <DefaultLayout>
       <h2>Index</h2>
-      {/* <p> I want to see {project[0].name}</p> */}
+      {/* <p> I want to see {projects[0].name}</p> */}
       {
-        project.map((item, index) => {
+        projects.map((item, index) => {
           return (
             // <div>
             //   <h2 key={index}>{item.name}</h2>
@@ -19,6 +19,9 @@ function HelloMessage({project}) {
           )
         })
       }
+      <a href="/projects/new">
+        <button>Add New Project</button>
+      </a>
     </DefaultLayout>
   );
 }

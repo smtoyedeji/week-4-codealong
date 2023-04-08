@@ -6,6 +6,10 @@ const app = express();
 app.set("views", __dirname + "/views");
 app.set("view engine", "jsx");
 app.engine("jsx", require("express-react-views").createEngine());
+app.use(express.urlencoded({extended: true}))
+
+// styles
+app.use(express.static('public'))
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -13,6 +17,11 @@ app.get("/", (req, res) => {
 
 const projectController = require("./controller/project_controller");
 
-app.use("/project", projectController);
+app.use("/projects", projectController);
+
+app.get('*', (req, res) => {
+  res.render('ErrorPage')
+})
+
 
 app.listen(process.env.PORT, console.log('Server is running on port ' + process.env.PORT));
